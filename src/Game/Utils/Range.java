@@ -1,3 +1,7 @@
+package Game.Utils;
+
+import Game.Tiles.Tile;
+
 import java.lang.Math;
 public class Range {
     protected double range;

@@ -1,4 +1,6 @@
-public class Warrior extends Player{
+package Game.Tiles.Units.Players;
+
+public class Warrior extends Player {
     protected int abilityCooldown;
     protected int remainingCooldown = 0;
     protected Warrior(char tile, String name, int healthCapacity, int attack, int defense, int abilityCooldown){

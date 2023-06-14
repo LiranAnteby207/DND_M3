@@ -1,3 +1,5 @@
+package Game.Tiles.Units;
+
 public class Health {
     protected int HealthPool;
     protected int HealthAmount;

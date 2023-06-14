@@ -1,14 +1,20 @@
-import Tiles.Empty;
+package Game.Tiles.Units;
+
+import Game.Tiles.Empty;
+import Game.Tiles.Tile;
+import Game.Tiles.Units.Enemies.Enemy;
+import Game.Tiles.Units.Players.Player;
+import Game.Tiles.Wall;
 
 import java.lang.Math;
 
-public abstract class Unit extends Tile{
+public abstract class Unit extends Tile {
     protected String name;
     protected Health health;
     protected int attackPoints;
     protected int defensePoints;
-    protected Unit(char tile,BoardController boardController, String name, int healthCapacity, int attack, int defense){
-        super(tile,boardController);
+    protected Unit(char tile, String name, int healthCapacity, int attack, int defense){
+        super(tile);
         this.name = name;
         this.health = new Health(healthCapacity);
         this.attackPoints = attack;

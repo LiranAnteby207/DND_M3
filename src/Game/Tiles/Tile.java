@@ -1,8 +1,12 @@
+package Game.Tiles;
+
+import Game.Tiles.Units.Unit;
+import Game.Utils.Position;
+
 public abstract class Tile implements Comparable<Tile> {
-    private BoardController boardController;
     protected char tile;
     protected Position position;
-    protected Tile(char tile, BoardController boardController){this.tile = tile;this.boardController = boardController}
+    protected Tile(char tile){this.tile = tile;}
     protected void initialize(Position position){
         this.position = position;
     }

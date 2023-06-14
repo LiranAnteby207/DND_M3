@@ -1,8 +1,11 @@
-package Tiles;
+package Game.Tiles;
+
+import Game.Tiles.Units.Unit;
+import Game.Utils.Position;
 
 public class Empty extends Tile {
-    protected Empty(BoardController boardController, Position p){
-        super('.',boardController);
+    protected Empty(Position p){
+        super('.');
         position = new Position(p);
     }
     public void accept(Unit unit){

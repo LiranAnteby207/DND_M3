@@ -1,4 +1,6 @@
-public class Trap extends Enemy{
+package Game.Tiles.Units.Enemies;
+
+public class Trap extends Enemy {
     protected int visibilityTime;
     protected int invisibilityTime;
     protected int ticksCount = 0;
@@ -7,5 +9,8 @@ public class Trap extends Enemy{
         super('T',name, healthCapacity, attack, defense);
         this.visibilityTime = visibilityTime;
         this.invisibilityTime = invisibilityTime;
+    }
+    public void onDeath(){
+        this.remove();
     }
 }

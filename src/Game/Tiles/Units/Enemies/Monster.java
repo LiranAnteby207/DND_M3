@@ -1,6 +1,8 @@
-import java.util.Random;
+package Game.Tiles.Units.Enemies;
 
-public class Monster extends Enemy{
+import Game.Tiles.Units.Players.Player;
+
+public class Monster extends Enemy {
     protected int visionRange;
     protected Monster(int visionRange, char tile, String name, int healthCapacity, int attack, int defense){
         super(tile, name, healthCapacity, attack, defense);

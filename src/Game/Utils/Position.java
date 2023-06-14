@@ -1,3 +1,5 @@
+package Game.Utils;
+
 public class Position implements Comparable<Position>{
     protected int x;
     protected int y;

@@ -1,8 +1,13 @@
-public abstract class Player extends Unit{
+package Game.Tiles.Units.Players;
+
+import Game.Tiles.Units.Enemies.Enemy;
+import Game.Tiles.Units.Unit;
+
+public abstract class Player extends Unit {
     protected int experience = 0;
     protected int level = 1;
-    protected Player(char tile, BoardController boardController, String name, int healthCapacity, int attack, int defense){
-        super(tile,boardController, name, healthCapacity, attack, defense);
+    protected Player(char tile, String name, int healthCapacity, int attack, int defense){
+        super(tile, name, healthCapacity, attack, defense);
     }
     public void levelUp(){
         this.experience -= 50 * this.level;
@@ -34,7 +39,7 @@ public abstract class Player extends Unit{
     }
     public void onDeath(){
         this.setTile('X');
-        BoardController.endGame();
+        //BoardController.endGame();
     }
     public abstract void abilityCast();
     public void setLevel(int level) {
