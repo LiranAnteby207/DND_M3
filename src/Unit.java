@@ -1,16 +1,31 @@
+import Tiles.Empty;
+
+import java.lang.Math;
+
 public abstract class Unit extends Tile{
     protected String name;
     protected Health health;
     protected int attackPoints;
     protected int defensePoints;
-    protected Unit(char tile, String name, int healthCapacity, int attack, int defense){
-        super(tile);
+    protected Unit(char tile,BoardController boardController, String name, int healthCapacity, int attack, int defense){
+        super(tile,boardController);
         this.name = name;
         this.health = new Health(healthCapacity);
         this.attackPoints = attack;
         this.defensePoints = defense;
     }
-
+    public void attack(Unit unit){
+        int attackRnd = (int)(Math.random() * (this.attackPoints + 1));
+        int defenseRnd = (int)(Math.random() * (unit.attackPoints + 1));
+        int score = attackRnd - defenseRnd;
+        if(score > 0){
+            unit.health.HealthAmount -= score;
+            if(unit.health.HealthAmount <= 0)
+                unit.onDeath();
+        }
+        this.swap(unit);
+    }
+    public abstract void onDeath();
     public String getName() {
         return name;
     }
@@ -33,11 +48,6 @@ public abstract class Unit extends Tile{
     public void setDefensePoints(int defensePoints) {
         this.defensePoints = defensePoints;
     }
-    protected void moveLeft(){
-        int x = this.getPosition().getX();
-        int y = this.getPosition().getY();
-
-    }
     public void visit(Wall w){}
     public void visit(Empty e){
         this.swap(e);
@@ -48,13 +58,23 @@ public abstract class Unit extends Tile{
     public void interact(Tile tile){
         tile.accept(this);
     }
+    protected void moveLeft(){
+        //need to get the tile from the left and do 'swap'
+
+        int x = this.getPosition().getX();
+        int y = this.getPosition().getY();
+
+    }
     protected void moveRight(){
+        //need to get the tile from the right and do 'swap'
 
     }
     protected void moveUp(){
+        //need to get the tile from the up and do 'swap'
 
     }
     protected void moveDown(){
+        //need to get the tile from the down and do 'swap'
 
     }
 }

@@ -1,11 +1,13 @@
 public abstract class Tile implements Comparable<Tile> {
+    private BoardController boardController;
     protected char tile;
     protected Position position;
-    protected Tile(char tile){this.tile = tile;}
+    protected Tile(char tile, BoardController boardController){this.tile = tile;this.boardController = boardController}
     protected void initialize(Position position){
         this.position = position;
     }
     public char getTile() {return tile;}
+    public void setTile(char t) {this.tile = t;}
 
     public Position getPosition() {return position;}
     @Override

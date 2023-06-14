@@ -1,3 +1,5 @@
+import Tiles.Empty;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -5,6 +7,7 @@ import java.util.stream.Collectors;
 
 public class GameBoard {
     private List<Tile> tiles;
+    // 50*20 - so list size 1000!
 
     public GameBoard(Tile[][] board) {
         tiles = new ArrayList<>();

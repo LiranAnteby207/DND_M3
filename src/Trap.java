@@ -8,5 +8,4 @@ public class Trap extends Enemy{
         this.visibilityTime = visibilityTime;
         this.invisibilityTime = invisibilityTime;
     }
-
 }
