@@ -64,6 +64,8 @@ public abstract class Unit extends Tile {
     public void interact(Tile tile){
         tile.accept(this);
     }
+
+
     protected void moveLeft(){
         //need to get the tile from the left and do 'swap'
 

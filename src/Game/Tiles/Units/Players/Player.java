@@ -17,6 +17,20 @@ public abstract class Player extends Unit {
         setAttackPoints(getAttackPoints() + 4 * this.level);
         setDefensePoints(getDefensePoints() + level);
     }
+    public void move (String move){
+        if (move == "Up" )
+            moveUp();
+        if ( move == "Down")
+            moveDown();
+        if (move == "Left")
+            moveLeft();
+        if (move == "Right")
+            moveRight();
+        if (move == "CastAbility")
+            abilityCast();
+        if (move == "Wait")
+
+    }
     public int getExperience() {
         return experience;
     }
