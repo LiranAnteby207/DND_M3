@@ -24,4 +24,7 @@ public class GameManager {
         Unit.gameManager=this;
         Unit.setMessageCallback(m);
     }
+
+    public void stat(String path){
+    }
 }
