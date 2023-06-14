@@ -1,5 +1,16 @@
 package Input;
 
+public class InputMaker{
+    public String Up;
+    public String Down;
+    public String Left;
+    public String Right;
+    public String CastAbility;
+    public String Wait;
+
+
+}
+
 public enum InputMaker {
     Up("w"),
     Down("s"),

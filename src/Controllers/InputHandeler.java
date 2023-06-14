@@ -1,4 +1,4 @@
-package Game.Handelers;
+package Controllers;
 
 import DataBase.*;
 import Input.InputMaker;
