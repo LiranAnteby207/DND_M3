@@ -1,5 +1,7 @@
 package Game.Tiles.Units;
 
+import Game.Callbacks.MessageCallback;
+import Game.GameManager;
 import Game.Tiles.Empty;
 import Game.Tiles.Tile;
 import Game.Tiles.Units.Enemies.Enemy;
@@ -13,12 +15,18 @@ public abstract class Unit extends Tile {
     protected Health health;
     protected int attackPoints;
     protected int defensePoints;
+    public static MessageCallback messageCallback;
+    public static GameManager gameManager;
     protected Unit(char tile, String name, int healthCapacity, int attack, int defense){
         super(tile);
         this.name = name;
         this.health = new Health(healthCapacity);
         this.attackPoints = attack;
         this.defensePoints = defense;
+    }
+    public String toString(){
+        return this.name + ", " + this.health.toString() + ", attack points: " +
+                this.attackPoints + ", defense points: " + this.defensePoints;
     }
     public void attack(Unit unit){
         int attackRnd = (int)(Math.random() * (this.attackPoints + 1));

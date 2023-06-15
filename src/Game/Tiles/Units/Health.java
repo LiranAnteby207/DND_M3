@@ -11,7 +11,9 @@ public class Health {
     public int getHealthAmount() {
         return HealthAmount;
     }
-
+    public String toString(){
+        return "health pool: " + this.HealthPool + ", health amount: " + this.HealthAmount;
+    }
     public void setHealthAmount(int healthAmount) {
         HealthAmount = healthAmount;
     }

@@ -1,8 +1,10 @@
 package Controllers;
 
+import Game.Tiles.Units.Enemies.Enemy;
 import Game.Tiles.Units.Enemies.Monster;
 import Game.Tiles.Units.Enemies.Trap;
 import Game.Tiles.Units.Players.Mage;
+import Game.Tiles.Units.Players.Player;
 import Game.Tiles.Units.Players.Rogue;
 import Game.Tiles.Units.Players.Warrior;
 import Game.Tiles.Units.Unit;
@@ -14,37 +16,22 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 public class UnitsController {
-    public Map<String,Unit> Players = new HashMap<>();
-    public Map<String,Unit> Enemies = new HashMap<>();
+    public static Map<String, Player> Players = new HashMap<>();
+    public static Map<String, Enemy> Enemies = new HashMap<>();
 //    private final static String DataBase = "src/DataBase";
     public UnitsController(){
-        buildUnit("/DataBase/DbPlayers", Players); // players list
-        buildUnit("/DataBase/DbEnemies", Enemies); // enemies list();
+        buildUnit("/DataBase/DbPlayers"); // players list
+        buildUnit("/DataBase/DbEnemies"); // enemies list();
     }
-    public void buildUnit(String path, Map<String,Unit> Units){
+    public void buildUnit(String path) {
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] data = line.split("\\|"); // maybe bad reading
                 createUnit(data);
-                if (data.length == 9) {
-                    String unitType = data[0];
-                    String name = data[1];
-                    char symbol = data[2].charAt(0);
-                    int health = Integer.parseInt(data[3]);
-                    int attack = Integer.parseInt(data[4]);
-                    int defense = Integer.parseInt(data[5]);
-                    int speed = Integer.parseInt(data[6]);
-                    int experience = Integer.parseInt(data[7]);
-
-                    Unit unit = new Unit(name, symbol, health, attack, defense, speed, experience);
-
-                }
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
     public void createUnit(String[] data){

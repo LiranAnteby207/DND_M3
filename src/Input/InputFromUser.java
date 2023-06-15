@@ -14,6 +14,12 @@ public class InputFromUser {
     public static final InputFromUser Right = new InputFromUser("d");
     public static final InputFromUser CastAbility = new InputFromUser("e");
     public static final InputFromUser Wait = new InputFromUser("q");
+    public static final InputFromUser JonSnow = new InputFromUser("0");
+    public static final InputFromUser TheHound = new InputFromUser("1");
+    public static final InputFromUser Melisandre = new InputFromUser("2");
+    public static final InputFromUser ThorosofMyr = new InputFromUser("3");
+    public static final InputFromUser AryaStark = new InputFromUser("4");
+    public static final InputFromUser Bronn = new InputFromUser("5");
 
     public InputFromUser(String key) {
         this.key = key;

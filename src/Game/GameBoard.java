@@ -3,6 +3,7 @@ package Game;
 import Game.Tiles.Empty;
 import Game.Tiles.Units.Enemies.Enemy;
 import Game.Tiles.Tile;
+import Game.Tiles.Units.Players.Player;
 import Game.Utils.Position;
 
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class GameBoard {
+    public Player player;
     private List<Tile> tiles;
     // 50*20 - so list size 1000!
 
@@ -20,6 +22,10 @@ public class GameBoard {
             tiles.addAll(Arrays.asList(line));
         }
     }
+    public void setPlayer(Player p){
+        this.player = p;
+    }
+    public Player getPlayer(){return this.player;}
     public Tile get(int x, int y) {
         for(Tile t : tiles){
             if (t.getPosition().equals(Position.at(x, y))){
