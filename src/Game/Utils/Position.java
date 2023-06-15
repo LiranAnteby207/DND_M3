@@ -13,7 +13,9 @@ public class Position implements Comparable<Position>{
         this.y = place.y;
 
     }
-
+    public Position copy(){
+        return new Position(this.x, this.y);
+    }
     public int getX() {
         return x;
     }

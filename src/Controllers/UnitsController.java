@@ -26,7 +26,7 @@ public class UnitsController {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] data = line.split("\\|"); // maybe bad reading
-                Unit unit = createUnit(data);
+                createUnit(data);
                 if (data.length == 9) {
                     String unitType = data[0];
                     String name = data[1];
