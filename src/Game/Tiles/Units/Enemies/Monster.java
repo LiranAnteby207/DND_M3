@@ -1,12 +1,15 @@
 package Game.Tiles.Units.Enemies;
 
 import Game.Tiles.Units.Players.Player;
+import Game.Utils.Range;
 
 public class Monster extends Enemy {
-    protected int visionRange;
-    protected Monster(int visionRange, char tile, String name, int healthCapacity, int attack, int defense){
+    protected int VisionRange;
+    protected int ExperienceValue;
+    public Monster(char tile, String name, int healthCapacity, int attack, int defense, int visionRange, int experience){
         super(tile, name, healthCapacity, attack, defense);
-        this.visionRange = visionRange;
+        this.VisionRange = visionRange;
+        this.ExperienceValue = experience;
     }
     public void move(Player p){
         Range r = new Range(p, this);

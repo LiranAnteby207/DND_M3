@@ -12,20 +12,22 @@ import Game.Utils.Position;
 import Game.Utils.Range;
 
 public class Trap extends Enemy {
-    protected int visibilityTime;
-    protected int invisibilityTime;
+    protected int VisibilityTime;
+    protected int InVisibilityTime;
+    protected int ExperienceValue;
     protected int ticksCount = 0;
     protected boolean visible = true;
 //    private  char VISIBLE_TILE;
 //    private  char INVISIBLE_TILE='.';
-    protected Trap(int visibilityTime, int invisibilityTime, String name, int healthCapacity, int attack, int defense){
-        super('T',name, healthCapacity, attack, defense);
-        this.visibilityTime = visibilityTime;
-        this.invisibilityTime = invisibilityTime;
+public Trap(char tile, String name, int healthCapacity, int attack, int defense, int experienceValue, int visibilityTime, int invisibilityTime){
+        super(tile,name, healthCapacity, attack, defense);
+        this.VisibilityTime = visibilityTime;
+        this.InVisibilityTime = invisibilityTime;
+        this.ExperienceValue = experienceValue;
     }
     public void turn(Player p){
-     setVisible(ticksCount<visibilityTime);
-     if (ticksCount == (visibilityTime + invisibilityTime))
+     setVisible(ticksCount<VisibilityTime);
+     if (ticksCount == (VisibilityTime + InVisibilityTime))
          ticksCount = 0;
      else
          ticksCount +=1;

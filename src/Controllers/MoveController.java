@@ -11,5 +11,7 @@ import View.Input.InputProvider;
 import java.util.List;
 
 public class MoveController {
+    public GameBoard gameBoard;
+
 
 }
