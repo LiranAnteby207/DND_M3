@@ -7,6 +7,7 @@ import Game.Tiles.Tile;
 import Game.Tiles.Units.Enemies.Enemy;
 import Game.Tiles.Units.Players.Player;
 import Game.Tiles.Wall;
+import Game.Utils.Position;
 
 import java.lang.Math;
 
@@ -24,10 +25,14 @@ public abstract class Unit extends Tile {
         this.attackPoints = attack;
         this.defensePoints = defense;
     }
+    public void initialize(Position p){
+        super.initialize(p);
+    }
     public String toString(){
         return this.name + ", " + this.health.toString() + ", attack points: " +
                 this.attackPoints + ", defense points: " + this.defensePoints;
     }
+    public abstract Unit copy();
     public void attack(Unit unit){
         int attackRnd = (int)(Math.random() * (this.attackPoints + 1));
         int defenseRnd = (int)(Math.random() * (unit.attackPoints + 1));

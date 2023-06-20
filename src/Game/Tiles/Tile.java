@@ -14,6 +14,9 @@ public abstract class Tile implements Comparable<Tile> {
     public void setTile(char t) {this.tile = t;}
 
     public Position getPosition() {return position;}
+    public void setPosition(Position p){
+        this.position = p;
+    }
     @Override
     public int compareTo(Tile tile) {
         return getPosition().compareTo(tile.getPosition());

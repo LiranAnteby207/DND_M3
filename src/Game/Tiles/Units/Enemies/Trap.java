@@ -40,6 +40,9 @@ public Trap(char tile, String name, int healthCapacity, int attack, int defense,
         return visible;
     }
     public void onDeath(){this.remove(); }
+    public Trap copy(){
+    return new Trap(this.tile, this.name, this.health.getHealthPool(), this.attackPoints, this.defensePoints, this.ExperienceValue,this.VisibilityTime, this.InVisibilityTime);
+    }
     public void setVisible(Boolean visible){
         this.visible = visible;
         //setTile(visible ? VISIBLE_TILE : INVISIBLE_TILE);

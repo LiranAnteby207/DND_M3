@@ -1,13 +1,23 @@
 package Game.Tiles.Units.Players;
 
+import Game.Callbacks.MessageCallback;
 import Game.Tiles.Units.Enemies.Enemy;
+import Game.Tiles.Units.Health;
 import Game.Tiles.Units.Unit;
+import Game.Utils.Position;
 
 public abstract class Player extends Unit {
     protected int experience = 0;
     protected int level = 1;
     protected Player(char tile, String name, int healthCapacity, int attack, int defense){
         super(tile, name, healthCapacity, attack, defense);
+    }
+    public void initialize(Position p ){
+        super.initialize(p);
+    }
+
+    public boolean isDead(){
+        return getHealth().getHealthAmount() <= 0;
     }
     public void levelUp(){
         this.experience -= 50 * this.level;
@@ -17,6 +27,7 @@ public abstract class Player extends Unit {
         setAttackPoints(getAttackPoints() + 4 * this.level);
         setDefensePoints(getDefensePoints() + level);
     }
+    public abstract String describe();
     public void move (String move){
         if (move == "Up" )
             moveUp();
@@ -28,8 +39,6 @@ public abstract class Player extends Unit {
             moveRight();
         if (move == "CastAbility")
             abilityCast();
-        if (move == "Wait")
-
     }
     public int getExperience() {
         return experience;

@@ -11,6 +11,9 @@ public class Monster extends Enemy {
         this.VisionRange = visionRange;
         this.ExperienceValue = experience;
     }
+    public Monster copy(){
+        return new Monster(this.tile, this.name, this.health, this.attackPoints, this.defensePoints, this.VisionRange, this.ExperienceValue);
+    }
     public void move(Player p){
         Range r = new Range(p, this);
         if(r.range < visionRange)
