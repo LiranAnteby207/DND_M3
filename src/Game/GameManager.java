@@ -54,8 +54,10 @@ public class GameManager {
             while(!gameBoard.getPlayer().isDead() && tickIter.hasNext()){
                 tickIter.next().onTick();
             }
-            if(gameBoard.getPlayer().isDead())
+            if(gameBoard.getPlayer().isDead()){
                 messageCallback.send("player is dead!");
+                break;
+            }
             if(!gameBoard.getPlayer().isDead())
                 printBoard();
         }
@@ -115,13 +117,7 @@ public class GameManager {
                 break;
             }
         }
-        if(p == null) {
-            messageCallback.send("Entered wrong input, try again");
-            getPlayer();
-        }
-        else{
-            gameBoard.setPlayer(p);
-        }
+        gameBoard.setPlayer(p);
     }
     public String choosePlayer(){
         messageCallback.send("Choose your player: ");

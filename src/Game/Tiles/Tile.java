@@ -10,6 +10,9 @@ public abstract class Tile implements Comparable<Tile> {
     protected void initialize(Position position){
         this.position = position;
     }
+    public String toString(){
+        return tile +"";
+    }
     public char getTile() {return tile;}
     public void setTile(char t) {this.tile = t;}
 

@@ -19,7 +19,7 @@ public class GameBoard {
     public int width;
     public List<Enemy> enemies= new ArrayList<Enemy>();
     public HashMap<Position, Wall> walls = new HashMap<Position, Wall>();
-    private String[][]board;
+    public String[][]board;
     public void setPlayer(Player p){
         this.player = p;
     }
@@ -70,6 +70,18 @@ public class GameBoard {
         for (Position wallPos: this.walls.keySet()){
             board[wallPos.getY()][wallPos.getX()] = this.walls.get(wallPos).toString();
         }
+    }
+    public Tile getTile(int x, int y){
+        for (Enemy enemy : enemies) {
+            if(enemy.getPosition().getX() == x && enemy.getPosition().getY() == y)
+                return enemy;
+        }
+        for (Map.Entry<Position, Wall> entry : walls.entrySet()) {
+            Position position = entry.getKey();
+            if (position.getX() == x && position.getY() == y)
+                return entry.getValue();
+        }
+        return null;
     }
     @Override
     public String toString() {

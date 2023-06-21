@@ -15,7 +15,15 @@ public abstract class Enemy extends Unit {
         u.visit(this);
     }
     public void visit(Player p){
-        //fight
+        p.attack(this);
+        if(isDead())
+            onDeath((p));
+    }
+    public void onDeath(Player p){
+        p.setExperience(experienceValue);
+        messageCallback.send(String.format("%s died. %s gained %d experience.", this.getName(), p.getName(), this.getExperienceValue()));
+        this.tile = '.';
+        this.swap(p);
     }
     public void visit(Enemy e){}
     public void setExperienceValue(int experienceValue) {

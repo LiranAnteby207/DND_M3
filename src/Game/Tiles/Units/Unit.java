@@ -32,19 +32,19 @@ public abstract class Unit extends Tile {
         return this.name + ", " + this.health.toString() + ", attack points: " +
                 this.attackPoints + ", defense points: " + this.defensePoints;
     }
+    public abstract void onTick();
     public abstract Unit copy();
     public void attack(Unit unit){
-        int attackRnd = (int)(Math.random() * (this.attackPoints + 1));
-        int defenseRnd = (int)(Math.random() * (unit.attackPoints + 1));
-        int score = attackRnd - defenseRnd;
+        double attackRnd = (Math.random() * (this.attackPoints + 1));
+        double defenseRnd = (Math.random() * (unit.attackPoints + 1));
+        double score = attackRnd - defenseRnd;
         if(score > 0){
             unit.health.HealthAmount -= score;
-            if(unit.health.HealthAmount <= 0)
-                unit.onDeath();
         }
-        this.swap(unit);
     }
-    public abstract void onDeath();
+    public boolean isDead(){
+        return this.health.HealthAmount <= 0;
+    }
     public String getName() {
         return name;
     }
@@ -77,25 +77,42 @@ public abstract class Unit extends Tile {
     public void interact(Tile tile){
         tile.accept(this);
     }
-
-
     protected void moveLeft(){
-        //need to get the tile from the left and do 'swap'
-
-        int x = this.getPosition().getX();
-        int y = this.getPosition().getY();
-
+        int x = position.getX();
+        int y = position.getY();
+        Tile tile = gameManager.gameBoard.getTile(x +1,y);
+        if(tile == null)
+            this.position.setX(x +1);
+        else
+            this.interact(tile);
     }
     protected void moveRight(){
-        //need to get the tile from the right and do 'swap'
+        int x = position.getX();
+        int y = position.getY();
+        Tile tile = gameManager.gameBoard.getTile(x - 1,y );
+        if(tile == null)
+            this.position.setX(x -1);
+        else
+            this.interact(tile);
 
     }
     protected void moveUp(){
-        //need to get the tile from the up and do 'swap'
+        int x = position.getX();
+        int y = position.getY();
+        Tile tile = gameManager.gameBoard.getTile(x,y+1);
+        if(tile == null)
+            this.position.setY(y +1);
+        else
+            this.interact(tile);
 
     }
     protected void moveDown(){
-        //need to get the tile from the down and do 'swap'
-
+        int x = position.getX();
+        int y = position.getY();
+        Tile tile = gameManager.gameBoard.getTile(x ,y-1);
+        if(tile == null)
+            this.position.setY(y -1);
+        else
+            this.interact(tile);
     }
 }

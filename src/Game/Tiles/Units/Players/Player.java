@@ -16,9 +16,6 @@ public abstract class Player extends Unit {
         super.initialize(p);
     }
 
-    public boolean isDead(){
-        return getHealth().getHealthAmount() <= 0;
-    }
     public void levelUp(){
         this.experience -= 50 * this.level;
         this.level += 1;
@@ -51,7 +48,9 @@ public abstract class Player extends Unit {
         u.visit(this);
     }
     public void visit (Enemy e){
-        //something
+        e.attack(this);
+        if(isDead())
+            onDeath();
     }
     public void visit (Player p){}
     public void setExperience(int experienceFromFight) {
@@ -62,7 +61,6 @@ public abstract class Player extends Unit {
     }
     public void onDeath(){
         this.setTile('X');
-        //BoardController.endGame();
     }
     public abstract void abilityCast();
     public void setLevel(int level) {
