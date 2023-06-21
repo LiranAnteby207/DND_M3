@@ -77,42 +77,40 @@ public abstract class Unit extends Tile {
     public void interact(Tile tile){
         tile.accept(this);
     }
+    public void move(char act){
+        if (act == 'w' )
+            moveUp();
+        if ( act == 's')
+            moveDown();
+        if (act == 'a')
+            moveLeft();
+        if (act == 'd')
+            moveRight();
+    }
     protected void moveLeft(){
         int x = position.getX();
         int y = position.getY();
         Tile tile = gameManager.gameBoard.getTile(x +1,y);
-        if(tile == null)
-            this.position.setX(x +1);
-        else
-            this.interact(tile);
+        this.interact(tile);
     }
     protected void moveRight(){
         int x = position.getX();
         int y = position.getY();
         Tile tile = gameManager.gameBoard.getTile(x - 1,y );
-        if(tile == null)
-            this.position.setX(x -1);
-        else
-            this.interact(tile);
+        this.interact(tile);
 
     }
     protected void moveUp(){
         int x = position.getX();
         int y = position.getY();
         Tile tile = gameManager.gameBoard.getTile(x,y+1);
-        if(tile == null)
-            this.position.setY(y +1);
-        else
-            this.interact(tile);
+        this.interact(tile);
 
     }
     protected void moveDown(){
         int x = position.getX();
         int y = position.getY();
         Tile tile = gameManager.gameBoard.getTile(x ,y-1);
-        if(tile == null)
-            this.position.setY(y -1);
-        else
-            this.interact(tile);
+        this.interact(tile);
     }
 }

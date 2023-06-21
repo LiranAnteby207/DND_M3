@@ -4,7 +4,7 @@ import Game.Tiles.Units.Unit;
 import Game.Utils.Position;
 
 public class Empty extends Tile {
-    protected Empty(Position p){
+    public Empty(Position p){
         super('.');
         position = new Position(p);
     }

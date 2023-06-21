@@ -1,5 +1,6 @@
 package Game.Tiles.Units.Players;
 
+import Controllers.InputController;
 import Game.Callbacks.MessageCallback;
 import Game.Tiles.Units.Enemies.Enemy;
 import Game.Tiles.Units.Health;
@@ -15,7 +16,7 @@ public abstract class Player extends Unit {
     public void initialize(Position p ){
         super.initialize(p);
     }
-
+    public abstract void onTick();
     public void levelUp(){
         this.experience -= 50 * this.level;
         this.level += 1;
@@ -25,18 +26,6 @@ public abstract class Player extends Unit {
         setDefensePoints(getDefensePoints() + level);
     }
     public abstract String describe();
-    public void move (String move){
-        if (move == "Up" )
-            moveUp();
-        if ( move == "Down")
-            moveDown();
-        if (move == "Left")
-            moveLeft();
-        if (move == "Right")
-            moveRight();
-        if (move == "CastAbility")
-            abilityCast();
-    }
     public int getExperience() {
         return experience;
     }

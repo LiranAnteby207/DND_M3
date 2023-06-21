@@ -19,6 +19,7 @@ public class GameBoard {
     public int width;
     public List<Enemy> enemies= new ArrayList<Enemy>();
     public HashMap<Position, Wall> walls = new HashMap<Position, Wall>();
+    public HashMap<Position, Empty> emptys = new HashMap<Position, Empty>();
     public String[][]board;
     public void setPlayer(Player p){
         this.player = p;
@@ -39,9 +40,13 @@ public class GameBoard {
                 for (char ch: data.toCharArray()){
                     if (ch == '@') {
                         player.setPosition(position);
+                        setPlayer(player);
                     }
                     if (ch == '#') {
                         walls.put(position, new Wall(position));
+                    }
+                    if(ch == '.'){
+                        emptys.put(position, new Empty(position));
                     }
                     if (UnitsController.Enemies.containsKey(ch+"")){
                         enemy = UnitsController.Enemies.get(ch+"").copy();
@@ -77,6 +82,11 @@ public class GameBoard {
                 return enemy;
         }
         for (Map.Entry<Position, Wall> entry : walls.entrySet()) {
+            Position position = entry.getKey();
+            if (position.getX() == x && position.getY() == y)
+                return entry.getValue();
+        }
+        for (Map.Entry<Position, Empty> entry : emptys.entrySet()) {
             Position position = entry.getKey();
             if (position.getX() == x && position.getY() == y)
                 return entry.getValue();

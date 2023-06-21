@@ -1,5 +1,6 @@
 package Game.Tiles.Units.Enemies;
 
+import Game.Tiles.Empty;
 import Game.Tiles.Units.Players.Player;
 import Game.Tiles.Units.Unit;
 
@@ -22,9 +23,12 @@ public abstract class Enemy extends Unit {
     public void onDeath(Player p){
         p.setExperience(experienceValue);
         messageCallback.send(String.format("%s died. %s gained %d experience.", this.getName(), p.getName(), this.getExperienceValue()));
-        this.tile = '.';
-        this.swap(p);
+        Empty e = new Empty(position);
+        gameManager.gameBoard.emptys.put(position,e);
+        gameManager.gameBoard.enemies.remove(this);
+        e.swap(p);
     }
+    public abstract void onTick();
     public void visit(Enemy e){}
     public void setExperienceValue(int experienceValue) {
         this.experienceValue += experienceValue;
