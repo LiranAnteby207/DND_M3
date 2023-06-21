@@ -1,7 +1,11 @@
 package Game.Tiles.Units.Players;
 
+import Controllers.InputController;
+import Game.Callbacks.MessageCallback;
 import Game.Tiles.Units.Enemies.Enemy;
+import Game.Tiles.Units.Health;
 import Game.Tiles.Units.Unit;
+import Game.Utils.Position;
 
 public abstract class Player extends Unit {
     protected int experience = 0;
@@ -9,6 +13,10 @@ public abstract class Player extends Unit {
     protected Player(char tile, String name, int healthCapacity, int attack, int defense){
         super(tile, name, healthCapacity, attack, defense);
     }
+    public void initialize(Position p ){
+        super.initialize(p);
+    }
+    public abstract void onTick();
     public void levelUp(){
         this.experience -= 50 * this.level;
         this.level += 1;
@@ -17,20 +25,7 @@ public abstract class Player extends Unit {
         setAttackPoints(getAttackPoints() + 4 * this.level);
         setDefensePoints(getDefensePoints() + level);
     }
-    public void move (String move){
-        if (move == "Up" )
-            moveUp();
-        if ( move == "Down")
-            moveDown();
-        if (move == "Left")
-            moveLeft();
-        if (move == "Right")
-            moveRight();
-        if (move == "CastAbility")
-            abilityCast();
-        if (move == "Wait")
-
-    }
+    public abstract String describe();
     public int getExperience() {
         return experience;
     }
@@ -42,7 +37,9 @@ public abstract class Player extends Unit {
         u.visit(this);
     }
     public void visit (Enemy e){
-        //something
+        e.attack(this);
+        if(isDead())
+            onDeath();
     }
     public void visit (Player p){}
     public void setExperience(int experienceFromFight) {
@@ -53,7 +50,6 @@ public abstract class Player extends Unit {
     }
     public void onDeath(){
         this.setTile('X');
-        //BoardController.endGame();
     }
     public abstract void abilityCast();
     public void setLevel(int level) {

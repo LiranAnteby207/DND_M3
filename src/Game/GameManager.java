@@ -1,19 +1,14 @@
 package Game;
+import Controllers.InputController;
 import Controllers.MoveController;
 import Controllers.UnitsController;
 import Game.Callbacks.MessageCallback;
-//import Game.Handelers.InputHandler;
-//import Game.Handelers.MoveHandler;
-//import Game.Handelers.TargetHandler;
 import Game.Tiles.Units.Enemies.Enemy;
 import Game.Tiles.Units.Players.Player;
 import Game.Tiles.Units.Unit;
-import Input.InputFromUser;
-
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.*;
-
 public class GameManager {
     public MessageCallback messageCallback;
     public GameBoard gameBoard;
@@ -21,13 +16,12 @@ public class GameManager {
     public List<Enemy> enemies;
     public int tickCount = 0;
     public UnitsController unitsController;
-    public EnemiesKnowledge enemiesKnowledge;
     public List<File> levelsFiles=new ArrayList<>();
     public List<Unit> listTurn=new ArrayList<>();
     public GameManager(MessageCallback messageCallback){
         this.messageCallback = messageCallback;
         this.unitsController = new UnitsController();
-        this.enemiesKnowledge = new EnemiesKnowledge(gameBoard);
+        this.enemies = gameBoard.enemies;
         this.moveController.gameBoard = this.gameBoard;
         Unit.gameManager=this;
         Unit.messageCallback = messageCallback;
@@ -39,22 +33,47 @@ public class GameManager {
         ListOfAllMaps(path);
         for (File f : this.levelsFiles){
             Player p = gameBoard.getPlayer();
-            p.initialize(p.getPosition(), messageCallback);
+            p.initialize(p.getPosition());
             if(p.isDead())
                 break;
             loadGame(f);
             startLevel();
+            if(p.isDead())
+                break;
         }
         if(gameBoard.getPlayer().isDead())
             messageCallback.send("Game Over!");
         else
             messageCallback.send("You Won!!!");
     }
+    public void startLevel(){
+        while(!gameBoard.getPlayer().isDead() && this.enemies.size() != 0){
+            printBoard();
+            Iterator<Unit> tickIter = listTurn.iterator();
+            this.tickCount++;
+            while(!gameBoard.getPlayer().isDead() && tickIter.hasNext()){
+                tickIter.next().onTick();
+            }
+            if(gameBoard.getPlayer().isDead()){
+                messageCallback.send("player is dead!");
+                break;
+            }
+            if(!gameBoard.getPlayer().isDead())
+                printBoard();
+        }
+
+    }
+    public void printBoard(){
+        if (gameBoard.enemies.size() > 0){
+            messageCallback.send(gameBoard.toString());
+            messageCallback.send(gameBoard.getPlayer().describe());
+        }
+    }
     public void loadGame(File f){
-        board.buildLevelBoard(f);
+        gameBoard.buildLevelBoard(f);
         listTurn.clear();
         listTurn.add(gameBoard.getPlayer());
-        for(Unit enemy: board.enemies)
+        for(Unit enemy: gameBoard.enemies)
             listTurn.add(enemy);
     }
     public void putOutInstructions(){
@@ -98,21 +117,35 @@ public class GameManager {
                 break;
             }
         }
-        if(p == null) {
-            messageCallback.send("Entered wrong input, try again");
-            getPlayer();
-        }
-        else{
-            gameBoard.setPlayer(p);
-        }
+        gameBoard.setPlayer(p);
     }
     public String choosePlayer(){
         messageCallback.send("Choose your player: ");
         int i = 0;
         for(Map.Entry<String, Player> player : UnitsController.Players.entrySet())
-            messageCallback.send(i + " :" + player.getValue().toString());
-        messageCallback.send("Enter the number of the player you desire!");
-        return InputFromUser.getRegex();
+            messageCallback.send(i + " :" + player.getValue().describe());
+        String value = null;
+        while(value == null){
+            messageCallback.send("Enter the number of the player you desire!");
+            value = getNameOfChosenPlayer(InputController.inputCache());
+        }
+        return value;
+    }
+    private String getNameOfChosenPlayer(char choise){
+        if(choise == '0')
+            return "JonSnow";
+        if(choise == '1')
+            return "TheHound";
+        if(choise == '2')
+            return "Melisandre";
+        if(choise == '3')
+            return "ThorosofMyr";
+        if(choise == '4')
+            return "AryaStark";
+        if(choise == '5')
+            return "Bronn";
+        messageCallback.send("Enter a number between 0-5 !");
+        return null;
     }
     public void ListOfAllMaps(String path){
         File f = new File(path);

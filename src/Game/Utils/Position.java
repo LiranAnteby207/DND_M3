@@ -4,11 +4,11 @@ public class Position implements Comparable<Position>{
     protected int x;
     protected int y;
 
-    protected Position(int x, int y){
+    public Position(int x, int y){
         this.x = x;
         this.y = y;
     }
-    protected Position(Position place){
+    public Position(Position place){
         this.x = place.x;
         this.y = place.y;
 

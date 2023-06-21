@@ -11,9 +11,16 @@ public class Monster extends Enemy {
         this.VisionRange = visionRange;
         this.ExperienceValue = experience;
     }
+    public Monster copy(){
+        return new Monster(this.tile, this.name, this.health.getHealthPool(), this.attackPoints, this.defensePoints, this.VisionRange, this.ExperienceValue);
+    }
+    public void onTick(){
+        Player p = gameManager.gameBoard.getPlayer();
+        move(p);
+    }
     public void move(Player p){
         Range r = new Range(p, this);
-        if(r.range < visionRange)
+        if(r.getRange() < VisionRange)
             this.moveTowards(p);
         else
             moveRandom();

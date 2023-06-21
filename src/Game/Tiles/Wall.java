@@ -1,5 +1,14 @@
 package Game.Tiles;
 
+import Game.Tiles.Units.Unit;
+import Game.Utils.Position;
+
 public class Wall extends Tile {
-    protected Wall(char tile){super(tile);}
+
+    public Wall(Position p){super('#');
+        super.initialize(p);
+    }
+
+    @Override
+    public void accept(Unit unit) {}
 }
