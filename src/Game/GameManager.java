@@ -1,6 +1,5 @@
 package Game;
 import Controllers.InputController;
-import Controllers.MoveController;
 import Controllers.UnitsController;
 import Game.Callbacks.MessageCallback;
 import Game.Tiles.Units.Enemies.Enemy;
@@ -12,7 +11,6 @@ import java.util.*;
 public class GameManager {
     public MessageCallback messageCallback;
     public GameBoard gameBoard;
-    public MoveController moveController;//-
     public List<Enemy> enemies;
     public int tickCount = 0;
     public UnitsController unitsController;
@@ -21,8 +19,8 @@ public class GameManager {
     public GameManager(MessageCallback messageCallback){
         this.messageCallback = messageCallback;
         this.unitsController = new UnitsController();
+        this.gameBoard = new GameBoard();
         this.enemies = gameBoard.enemies;
-        this.moveController.gameBoard = this.gameBoard;
         Unit.gameManager=this;
         Unit.messageCallback = messageCallback;
     }
@@ -51,6 +49,7 @@ public class GameManager {
             printBoard();
             Iterator<Unit> tickIter = listTurn.iterator();
             this.tickCount++;
+            gameBoard.getPlayer().onTick();
             while(!gameBoard.getPlayer().isDead() && tickIter.hasNext()){
                 tickIter.next().onTick();
             }
@@ -58,8 +57,6 @@ public class GameManager {
                 messageCallback.send("player is dead!");
                 break;
             }
-            else
-                printBoard();
         }
 
     }
@@ -72,7 +69,7 @@ public class GameManager {
     public void loadGame(File f){
         gameBoard.buildLevelBoard(f);
         listTurn.clear();
-        listTurn.add(gameBoard.getPlayer());
+//        listTurn.add(gameBoard.getPlayer());
         for(Unit enemy: gameBoard.enemies)
             listTurn.add(enemy);
     }
@@ -111,19 +108,26 @@ public class GameManager {
     public void getPlayer(){
         String PlayerChosen = choosePlayer();
         Player p = null;
-        for(Map.Entry<String, Player> player : UnitsController.Players.entrySet()){
-            if(player.getValue().getName() == PlayerChosen){
-                p = player.getValue();
-                break;
+        for(Map.Entry<String, List<Player>> players : UnitsController.Players.entrySet()) {
+            for(Player player : players.getValue()){
+                if(Objects.equals(player.getName(), PlayerChosen)){
+                    p = player;
+                    break;
+                }
             }
+            if(p != null)break;
         }
         gameBoard.setPlayer(p);
     }
     public String choosePlayer(){
         messageCallback.send("Choose your player: ");
         int i = 0;
-        for(Map.Entry<String, Player> player : UnitsController.Players.entrySet())
-            messageCallback.send(i + " :" + player.getValue().describe());
+        for(Map.Entry<String, List<Player>> player : UnitsController.Players.entrySet()){
+            for(Player p : player.getValue()){
+                messageCallback.send(i + " :" + p.describe());
+                i++;
+            }
+        }
         String value = null;
         while(value == null){
             messageCallback.send("Enter the number of the player you desire!");
@@ -133,15 +137,15 @@ public class GameManager {
     }
     private String getNameOfChosenPlayer(char choise){
         if(choise == '0')
-            return "JonSnow";
+            return "Jon Snow";
         if(choise == '1')
-            return "TheHound";
+            return "The Hound";
         if(choise == '2')
             return "Melisandre";
         if(choise == '3')
-            return "ThorosofMyr";
+            return "Thoros of Myr";
         if(choise == '4')
-            return "AryaStark";
+            return "Arya Stark";
         if(choise == '5')
             return "Bronn";
         messageCallback.send("Enter a number between 0-5 !");

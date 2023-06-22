@@ -24,7 +24,7 @@ public abstract class Enemy extends Unit {
         p.setExperience(experienceValue);
         messageCallback.send(String.format("%s died. %s gained %d experience.", this.getName(), p.getName(), this.getExperienceValue()));
         Empty e = new Empty(position);
-        gameManager.gameBoard.emptys.put(position,e);
+        gameManager.gameBoard.emptys.add(e);
         gameManager.gameBoard.enemies.remove(this);
         e.swap(p);
     }

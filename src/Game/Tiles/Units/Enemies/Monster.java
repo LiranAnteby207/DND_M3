@@ -29,12 +29,12 @@ public class Monster extends Enemy {
         int dx = p.getPosition().getX() - this.getPosition().getX();
         int dy = p.getPosition().getY() - this.getPosition().getY();
         if (Math.abs(dx) > Math.abs(dy)){
-            if (dx > 0) moveLeft();
-            else moveRight();
+            if (dx > 0) moveRight();
+            else moveLeft();
         }
         else {
-            if(dy > 0) moveUp();
-            else moveDown();
+            if(dy > 0) moveDown();
+            else moveUp();
         }
     }
     public void moveRandom(){
