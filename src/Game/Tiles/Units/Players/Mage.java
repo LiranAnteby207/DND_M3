@@ -6,14 +6,15 @@ import Game.Utils.Range;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Mage extends Player {
-    protected int ManaPool; // Initial value is received as a constructor argument
+    protected int ManaPool;
     protected int CurrentMana;
-    protected int ManaCost;//Received as an argument.
-    protected int SpellPower; // Initial value is received as a constructor argument.
-    protected int HitCount; //maximal number of times a single cast of the ability can hit. Received as an argument.
-    protected int MageRange; //Received as an argument
+    protected int ManaCost;
+    protected int SpellPower;
+    protected int HitCount;
+    protected int AbilityRange;
     public Mage(char tile, String name, int health, int attack, int defense, int manaPool, int manaCost, int spellPower, int hitCount, int range) {
         super(tile,name,health,attack,defense);
         this.ManaPool = manaPool;
@@ -21,13 +22,13 @@ public class Mage extends Player {
         this.ManaCost = manaCost;
         this.SpellPower = spellPower;
         this.HitCount = hitCount;
-        this.MageRange = range;
+        this.AbilityRange = range;
     }
     public String describe(){
-        return String.format("Mage %s level %s has: health amount: %s out of %s \n has mana pool %s, mana cost %s, spell power %s, hit count %s, mage range %s .", this.name,this.level, this.health.getHealthAmount(),this.health.getHealthPool(),ManaPool,ManaCost,SpellPower,HitCount,MageRange);
+        return String.format("Mage %s level %s has: health amount: %s out of %s \n has mana pool %s, mana cost %s, spell power %s, hit count %s, mage range %s .", this.name,this.level, this.health.getHealthAmount(),this.health.getHealthPool(),ManaPool,ManaCost,SpellPower,HitCount,AbilityRange);
     }
     public Mage copy(){
-        return new Mage(this.tile, this.name, this.health.getHealthPool(), this.attackPoints, this.defensePoints, this.ManaPool, this.ManaCost, this.SpellPower, this.HitCount, this.MageRange);
+        return new Mage(this.tile, this.name, this.health.getHealthPool(), this.attackPoints, this.defensePoints, this.ManaPool, this.ManaCost, this.SpellPower, this.HitCount, this.AbilityRange);
     }
     public void levelUp(){
         this.ManaPool = this.ManaPool + (25 * level);
@@ -48,12 +49,27 @@ public class Mage extends Player {
     }
     public void abilityCast(){
         this.CurrentMana = this.CurrentMana - copy().ManaCost; //?
-
-        int hits = 0;
-        while ((hits < this.HitCount) && ( < ) ){
-
+        boolean enemyInRange = false;
+        List<Enemy> inRangeEnemies = new ArrayList<>();
+        for (Enemy e : gameManager.gameBoard.enemies) {
+            Range rng = new Range(e, this);
+            if (rng.getRange() <= this.AbilityRange) {
+                inRangeEnemies.add(e);
+            }
         }
+        int hits = 0;
 
-
+        while ((hits < this.HitCount) && (!inRangeEnemies.isEmpty()) ){
+            Enemy randomEnemy = getRandomEnemy(inRangeEnemies);
+            //Deal damage (reduce health value) to the chosen enemy for an amount equal to spell power
+            //(each enemy may try to defend itself).
+            //??
+            hits++;
+        }
     }
+    private Enemy getRandomEnemy(List<Enemy> enemies) {
+        int randomIndex = new Random().nextInt(enemies.size());
+        return enemies.get(randomIndex);
+    }
+
 }
