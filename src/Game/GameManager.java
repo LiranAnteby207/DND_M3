@@ -12,7 +12,7 @@ import java.util.*;
 public class GameManager {
     public MessageCallback messageCallback;
     public GameBoard gameBoard;
-    public MoveController moveController;
+    public MoveController moveController;//-
     public List<Enemy> enemies;
     public int tickCount = 0;
     public UnitsController unitsController;
@@ -33,7 +33,7 @@ public class GameManager {
         ListOfAllMaps(path);
         for (File f : this.levelsFiles){
             Player p = gameBoard.getPlayer();
-            p.initialize(p.getPosition());
+            p.initialize(p.getPosition());//
             if(p.isDead())
                 break;
             loadGame(f);
@@ -58,7 +58,7 @@ public class GameManager {
                 messageCallback.send("player is dead!");
                 break;
             }
-            if(!gameBoard.getPlayer().isDead())
+            else
                 printBoard();
         }
 
