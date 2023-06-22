@@ -15,7 +15,7 @@ public class Rogue extends Player {
         return new Rogue(this.tile, this.name, this.health.getHealthPool(), this.attackPoints, this.defensePoints, this.Cost);
     }
     public String describe(){
-        return String.format("Rogue %s level %d has: health amount: %d out of %d ,attack %d, defense %d,  current energy %d, cost is %d", this.name,this.level, this.health.getHealthAmount(),this.health.getHealthPool(),this.attackPoints, this.defensePoints, currentEnergy, Cost);
+        return String.format("Rogue %s level %d has: health amount: %d out of %d ,attack %d, defense %d,  current energy %d, cost is %d", this.name, this.level, this.health.getHealthAmount(),this.health.getHealthPool(),this.attackPoints, this.defensePoints, currentEnergy, Cost);
     }
     public void onTick(){
         messageCallback.send("Choose your next move!");
@@ -40,5 +40,11 @@ public class Rogue extends Player {
                 e.visit(this);
 
         }
+    }
+    public void levelUp() {
+        this.currentEnergy = 100;
+        this.health.addHealthPool(3 * this.level);
+        this.health.setHealthPool(this.health.getHealthPool());
+        super.levelUp();
     }
 }
