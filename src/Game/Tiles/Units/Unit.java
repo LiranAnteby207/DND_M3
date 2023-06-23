@@ -40,7 +40,7 @@ public abstract class Unit extends Tile {
         double score = attackRnd - defenseRnd;
         if(score > 0){
             this.health.HealthAmount -= (int)score;
-            messageCallback.send(String.format("%s got damage %f from %s, now %s has %d health amount from %d",this.name,attackRnd,unit.name,this.name,this.health.HealthAmount,this.health.HealthPool));
+            messageCallback.send(String.format("%s got damage %f from %s, now %s has %d health amount from %d",this.name,score,unit.name,this.name,this.health.HealthAmount,this.health.HealthPool));
         }
         else
             messageCallback.send(String.format("%s tried to damage %s without success",unit.name, this.name));

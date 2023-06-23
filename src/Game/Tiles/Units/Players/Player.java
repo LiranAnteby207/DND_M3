@@ -38,8 +38,8 @@ public abstract class Player extends Unit {
     }
     public void visit (Enemy e){
         e.attack(this);
-        if(isDead())
-            onDeath();
+        if(e.isDead())
+            e.onDeath(this);
     }
     public void visit (Player p){}
     public void setExperience(int experienceFromFight) {
