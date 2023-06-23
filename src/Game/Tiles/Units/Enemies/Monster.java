@@ -5,14 +5,12 @@ import Game.Utils.Range;
 
 public class Monster extends Enemy {
     protected int VisionRange;
-    protected int ExperienceValue;
     public Monster(char tile, String name, int healthCapacity, int attack, int defense, int visionRange, int experience){
-        super(tile, name, healthCapacity, attack, defense);
+        super(tile, name, healthCapacity, attack, defense,experience);
         this.VisionRange = visionRange;
-        this.ExperienceValue = experience;
     }
     public Monster copy(){
-        return new Monster(this.tile, this.name, this.health.getHealthPool(), this.attackPoints, this.defensePoints, this.VisionRange, this.ExperienceValue);
+        return new Monster(this.tile, this.name, this.health.getHealthPool(), this.attackPoints, this.defensePoints, this.VisionRange, this.experienceValue);
     }
     public void onTick(){
         Player p = gameManager.gameBoard.getPlayer();

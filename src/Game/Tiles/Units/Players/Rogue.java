@@ -20,31 +20,31 @@ public class Rogue extends Player {
     public void onTick(){
         messageCallback.send("Choose your next move!");
         char act = InputController.inputCache();
-        if(act == 'e')
-            abilityCast();
+        if(act == 'e'){
+            if(this.currentEnergy >= Cost)
+                abilityCast();
+            else
+                messageCallback.send("Not enough energy!");
+        }
         else{
             move(act);
         }
         currentEnergy = Math.min(currentEnergy + 10, 100);
     }
     public void abilityCast(){
-        if(currentEnergy >= Cost){
-            fanOfKnives();
-        }
+        fanOfKnives();
         currentEnergy -= Cost;
     }
     private void fanOfKnives(){
         for(Enemy e : gameManager.gameBoard.enemies){
             Range rng = new Range(e,this);
             if(rng.getRange() < 2)
-                e.visit(this);
-
+                e.gotAttackedAbilityCast(this.attackPoints,this);
         }
     }
     public void levelUp() {
-        this.currentEnergy = 100;
-        this.health.addHealthPool(3 * this.level);
-        this.health.setHealthPool(this.health.getHealthPool());
         super.levelUp();
+        this.currentEnergy = 100;
+        this.attackPoints += 3*this.level;
     }
 }

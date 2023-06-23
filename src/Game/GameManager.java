@@ -49,9 +49,19 @@ public class GameManager {
             printBoard();
             Iterator<Unit> tickIter = listTurn.iterator();
             this.tickCount++;
+            messageCallback.send("tick number "+ tickCount);
             gameBoard.getPlayer().onTick();
             while(!gameBoard.getPlayer().isDead() && tickIter.hasNext()){
-                tickIter.next().onTick();
+                Unit u = tickIter.next();
+                if(!u.isDead())
+                    u.onTick();
+            }
+            Iterator<Unit> iterator = listTurn.iterator();
+            while (iterator.hasNext()) {
+                Unit u = iterator.next();
+                if (u.isDead()) {
+                    iterator.remove();
+                }
             }
             if(gameBoard.getPlayer().isDead()){
                 messageCallback.send("player is dead!");

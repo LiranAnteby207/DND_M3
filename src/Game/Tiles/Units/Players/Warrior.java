@@ -18,7 +18,7 @@ public class Warrior extends Player {
         return new Warrior(this.tile, this.name, this.health.getHealthPool(), this.attackPoints, this.defensePoints, this.abilityCooldown);
     }
     public String describe(){
-        return String.format("Warrior %s level %s has: health amount: %s out of %s, remaining coolDown left: %s", this.name,this.level, this.health.getHealthAmount(),this.health.getHealthPool(),this.remainingCooldown);
+        return String.format("Warrior %s level %s has: health amount: %s out of %s, attack: %d, defense: %d remaining coolDown left: %s", this.name,this.level, this.health.getHealthAmount(),this.health.getHealthPool(),attackPoints,defensePoints,this.remainingCooldown);
     }
     public void abilityCast(){
         this.remainingCooldown = this.abilityCooldown;
@@ -26,11 +26,6 @@ public class Warrior extends Player {
         this.health.setHealthAmount(newHealthAmount);
         AvengersShield();
     }
-
-    //randomly hits one enemy withing range < 3 for an amount
-    //equals to 10% of the warrior’s max health and heals the warrior for amount equals to (10×defense)
-    //(but will not exceed the total amount of health pool).
-    //??
     public void AvengersShield() {
         List<Enemy> inRangeEnemies = new ArrayList<>();
         for (Enemy e : gameManager.gameBoard.enemies) {
@@ -42,7 +37,7 @@ public class Warrior extends Player {
 
         if (!inRangeEnemies.isEmpty()) {
             Enemy randomEnemy = getRandomEnemy(inRangeEnemies);
-            randomEnemy.visit(this);
+            randomEnemy.gotAttackedAbilityCast(0.1*this.health.getHealthPool(),this);
         }
     }
 
@@ -54,8 +49,10 @@ public class Warrior extends Player {
     public void onTick(){
         messageCallback.send("Choose your next move!");
         char act = InputController.inputCache();
-        if(act == 'e')
-            abilityCast();
+        if(act == 'e') {
+            if (this.remainingCooldown == 0)
+                abilityCast();
+        }
         else{
             move(act);
         }
@@ -65,12 +62,12 @@ public class Warrior extends Player {
     }
 
     public void levelUp(){
+        super.levelUp();
         this.remainingCooldown = 0;
         this.health.addHealthPool(5 * this.level);
         this.health.setHealthPool(this.health.getHealthPool());
         setAttackPoints(getAttackPoints() + 2 * this.level);
         setDefensePoints(getDefensePoints() + level);
-        super.levelUp();
     }
     public int getAbilityCooldown(){ return this.abilityCooldown;}
     public int getRemainingCooldown(){ return this.remainingCooldown;}

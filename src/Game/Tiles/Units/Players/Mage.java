@@ -25,31 +25,32 @@ public class Mage extends Player {
         this.AbilityRange = range;
     }
     public String describe(){
-        return String.format("Mage %s level %s has: health amount: %s out of %s \n has mana pool %s, mana cost %s, spell power %s, hit count %s, mage range %s .", this.name,this.level, this.health.getHealthAmount(),this.health.getHealthPool(),ManaPool,ManaCost,SpellPower,HitCount,AbilityRange);
+        return String.format("Mage %s level %s has: health amount: %s out of %s, attack: %d, defence: %d \n has mana pool %s, mana cost %s, spell power %s, hit count %s, mage range %s .", this.name,this.level, this.health.getHealthAmount(),this.health.getHealthPool(),attackPoints,defensePoints,ManaPool,ManaCost,SpellPower,HitCount,AbilityRange);
     }
     public Mage copy(){
         return new Mage(this.tile, this.name, this.health.getHealthPool(), this.attackPoints, this.defensePoints, this.ManaPool, this.ManaCost, this.SpellPower, this.HitCount, this.AbilityRange);
     }
     public void levelUp(){
-        this.ManaPool = this.ManaPool + (25 * level);
+        super.levelUp();
+        this.ManaPool += 25 * this.level;
         this.CurrentMana = Math.min(this.CurrentMana+(this.ManaPool/4) , ManaPool);
         this.SpellPower = this.SpellPower + (10 * level);
-        super.levelUp();
     }
 
     public void onTick() {
         messageCallback.send("Choose your next move!");
         char act = InputController.inputCache();
-        if(act == 'e')
-            abilityCast();
+        if(act == 'e'){
+            if(this.CurrentMana < ManaCost)
+                abilityCast();
+        }
         else{
             move(act);
         }
-        this.CurrentMana = Math.min(this.ManaPool , this.CurrentMana + (1 *level));
+        this.CurrentMana = Math.min(this.ManaPool , this.CurrentMana + this.level);
     }
     public void abilityCast(){
-        this.CurrentMana = this.CurrentMana - copy().ManaCost; //?
-        boolean enemyInRange = false;
+        this.CurrentMana = this.CurrentMana - this.ManaCost;
         List<Enemy> inRangeEnemies = new ArrayList<>();
         for (Enemy e : gameManager.gameBoard.enemies) {
             Range rng = new Range(e, this);
@@ -61,9 +62,9 @@ public class Mage extends Player {
 
         while ((hits < this.HitCount) && (!inRangeEnemies.isEmpty()) ){
             Enemy randomEnemy = getRandomEnemy(inRangeEnemies);
-            //Deal damage (reduce health value) to the chosen enemy for an amount equal to spell power
-            //(each enemy may try to defend itself).
-            //??
+            randomEnemy.gotAttackedAbilityCast(this.SpellPower, this);
+            if(randomEnemy.isDead())
+                inRangeEnemies.remove(randomEnemy);
             hits++;
         }
     }
