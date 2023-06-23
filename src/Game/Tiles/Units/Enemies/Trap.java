@@ -4,17 +4,15 @@ import Game.Utils.Range;
 public class Trap extends Enemy {
     protected int VisibilityTime;
     protected int InVisibilityTime;
-    protected int ExperienceValue;
     protected int ticksCount = 0;
     protected boolean visible = true;
     private  char VISIBLE_TILE ;
     private  char INVISIBLE_TILE='.';
 public Trap(char tile, String name, int healthCapacity, int attack, int defense, int experienceValue, int visibilityTime, int invisibilityTime){
-        super(tile,name, healthCapacity, attack, defense);
+        super(tile,name, healthCapacity, attack, defense,experienceValue);
         VISIBLE_TILE = tile;
         this.VisibilityTime = visibilityTime;
         this.InVisibilityTime = invisibilityTime;
-        this.ExperienceValue = experienceValue;
     }
     public void onTick(){
         visible = ticksCount < VisibilityTime;
@@ -29,12 +27,12 @@ public Trap(char tile, String name, int healthCapacity, int attack, int defense,
         else
             ticksCount ++;
         if(range.getRange() < 2 )
-            attack(p);
+            p.attack(this);
     }
     public boolean isVisible() {
         return visible;
     }
     public Trap copy(){
-    return new Trap(this.tile, this.name, this.health.getHealthPool(), this.attackPoints, this.defensePoints, this.ExperienceValue,this.VisibilityTime, this.InVisibilityTime);
+    return new Trap(this.tile, this.name, this.health.getHealthPool(), this.attackPoints, this.defensePoints, this.experienceValue,this.VisibilityTime, this.InVisibilityTime);
     }
 }

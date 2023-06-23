@@ -18,10 +18,11 @@ public abstract class Player extends Unit {
     }
     public abstract void onTick();
     public void levelUp(){
+        messageCallback.send(String.format("%s leveled up!!!",this.name));
         this.experience -= 50 * this.level;
         this.level += 1;
         this.health.addHealthPool(10 * this.level);
-        this.health.setHealthPool(this.health.getHealthPool());
+        this.health.setHealthAmount( this.health.getHealthPool());
         setAttackPoints(getAttackPoints() + 4 * this.level);
         setDefensePoints(getDefensePoints() + level);
     }

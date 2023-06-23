@@ -29,6 +29,8 @@ public class GameBoard {
     public Player getPlayer(){return this.player;}
     public void buildLevelBoard(File f){
         walls.clear();
+        emptys.clear();
+        enemies.clear();
         try {
             Scanner mapReader = new Scanner(f);
             int y = 0, x=0;
@@ -67,9 +69,8 @@ public class GameBoard {
     }
     // build the board in arrays
     private void buildArray(){
-        for (int y = 0; y < height; y++)
-            for (int x = 0; x < width; x++)
-                board[y][x] = ".";
+        for (Empty empty : emptys)
+            board[empty.getPosition().getY()][empty.getPosition().getX()] = empty.getTile()+"";
         board[player.getPosition().getY()][player.getPosition().getX()] =player.getTile()+ "";
         for (Unit enemy : this.enemies){
             board[enemy.getPosition().getY()][enemy.getPosition().getX()] = enemy.getTile()+"";
