@@ -35,12 +35,15 @@ public abstract class Unit extends Tile {
     public abstract void onTick();
     public abstract Unit copy();
     public void attack(Unit unit){
-        double attackRnd = (Math.random() * (this.attackPoints + 1));
-        double defenseRnd = (Math.random() * (unit.attackPoints + 1));
+        double attackRnd = (Math.random() * (unit.attackPoints + 1));
+        double defenseRnd = (Math.random() * (this.attackPoints + 1));
         double score = attackRnd - defenseRnd;
         if(score > 0){
-            unit.health.HealthAmount -= score;
+            this.health.HealthAmount -= (int)score;
+            messageCallback.send(String.format("%s got damage %f from %s, now %s has %d health amount from %d",this.name,score,unit.name,this.name,this.health.HealthAmount,this.health.HealthPool));
         }
+        else
+            messageCallback.send(String.format("%s tried to damage %s without success",unit.name, this.name));
     }
     public boolean isDead(){
         return this.health.HealthAmount <= 0;
@@ -90,27 +93,27 @@ public abstract class Unit extends Tile {
     protected void moveLeft(){
         int x = position.getX();
         int y = position.getY();
-        Tile tile = gameManager.gameBoard.getTile(x +1,y);
+        Tile tile = gameManager.gameBoard.getTile(x -1,y);
         this.interact(tile);
     }
     protected void moveRight(){
         int x = position.getX();
         int y = position.getY();
-        Tile tile = gameManager.gameBoard.getTile(x - 1,y );
+        Tile tile = gameManager.gameBoard.getTile(x + 1,y );
         this.interact(tile);
 
     }
     protected void moveUp(){
         int x = position.getX();
         int y = position.getY();
-        Tile tile = gameManager.gameBoard.getTile(x,y+1);
+        Tile tile = gameManager.gameBoard.getTile(x,y-1);
         this.interact(tile);
 
     }
     protected void moveDown(){
         int x = position.getX();
         int y = position.getY();
-        Tile tile = gameManager.gameBoard.getTile(x ,y-1);
+        Tile tile = gameManager.gameBoard.getTile(x ,y+1);
         this.interact(tile);
     }
 }

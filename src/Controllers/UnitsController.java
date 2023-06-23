@@ -10,18 +10,15 @@ import Game.Tiles.Units.Players.Warrior;
 import Game.Tiles.Units.Unit;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 public class UnitsController {
-    public static Map<String, Player> Players = new HashMap<>();
+    public static Map<String, List<Player>> Players = new HashMap<>();
     public static Map<String, Enemy> Enemies = new HashMap<>();
 //    private final static String DataBase = "src/DataBase";
     public UnitsController(){
-        buildUnit("/DataBase/DbPlayers"); // players list
-        buildUnit("/DataBase/DbEnemies"); // enemies list();
+        buildUnit("src/DataBase/DbPlayers"); // players list
+        buildUnit("src/DataBase/DbEnemies"); // enemies list();
     }
     public void buildUnit(String path) {
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
@@ -35,16 +32,18 @@ public class UnitsController {
         }
     }
     public void createUnit(String[] data){
-        if (data[0] == "Warrior") {
+        if (Objects.equals(data[0], "Warrior")) {
             String name = data[1];
             int health = Integer.parseInt(data[2]);
             int attack = Integer.parseInt(data[3]);
             int defense = Integer.parseInt(data[4]);
             int coolDown = Integer.parseInt(data[5]);
             Warrior warrior = new Warrior('@', name, health, attack, defense, coolDown);
-            Players.put("Warrior", warrior);
+            List<Player> warriorList = Players.getOrDefault("Warrior", new ArrayList<>());
+            warriorList.add(warrior);
+            Players.put("Warrior", warriorList);
         }
-        if (data[0] == "Mage") {
+        if (Objects.equals(data[0], "Mage")) {
             String name = data[1];
             int health = Integer.parseInt(data[2]);
             int attack = Integer.parseInt(data[3]);
@@ -55,18 +54,22 @@ public class UnitsController {
             int HitCount = Integer.parseInt(data[8]);
             int range = Integer.parseInt(data[9]);
             Mage mage = new Mage('@', name, health, attack, defense, ManaPool, ManaCost, SpellPower, HitCount, range);
-            Players.put("Mage", mage);
+            List<Player> MageList = Players.getOrDefault("Mage", new ArrayList<>());
+            MageList.add(mage);
+            Players.put("Mage", MageList);
         }
-        if (data[0] == "Rogue") {
+        if (Objects.equals(data[0], "Rogue")) {
             String name = data[1];
             int health = Integer.parseInt(data[2]);
             int attack = Integer.parseInt(data[3]);
             int defense = Integer.parseInt(data[4]);
             int cost = Integer.parseInt(data[5]);
             Rogue rogue = new Rogue('@', name, health, attack, defense, cost);
-            Players.put("Rogue", rogue);
+            List<Player> RogueList = Players.getOrDefault("Rogue", new ArrayList<>());
+            RogueList.add(rogue);
+            Players.put("Rogue", RogueList);
         }
-        if (data[0] == "Monster") {
+        if (Objects.equals(data[0], "Monster")) {
             String name = data[1];
             char tile = data[2].charAt(0);
             int health = Integer.parseInt(data[3]);
@@ -75,9 +78,9 @@ public class UnitsController {
             int visionRange = Integer.parseInt(data[6]);
             int ExperienceValue = Integer.parseInt(data[7]);
             Monster monster = new Monster(tile, name, health, attack, defense, visionRange, ExperienceValue);
-            Enemies.put("Monster", monster);
+            Enemies.put(tile+"", monster);
         }
-        if (data[0] == "Trap") {
+        if (Objects.equals(data[0], "Trap")) {
             String name = data[1];
             char tile = data[2].charAt(0);
             int health = Integer.parseInt(data[3]);
@@ -87,7 +90,7 @@ public class UnitsController {
             int visibilityTime = Integer.parseInt(data[7]);
             int inVisibilityTime = Integer.parseInt(data[8]);
             Trap trap = new Trap(tile, name, health, attack, defense, ExperienceValue, visibilityTime, inVisibilityTime);
-            Enemies.put("Trap", trap);
+            Enemies.put(tile+"", trap);
         }
     }
 }

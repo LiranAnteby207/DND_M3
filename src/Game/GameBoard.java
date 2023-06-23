@@ -18,9 +18,11 @@ public class GameBoard {
     public int height;
     public int width;
     public List<Enemy> enemies= new ArrayList<Enemy>();
-    public HashMap<Position, Wall> walls = new HashMap<Position, Wall>();
-    public HashMap<Position, Empty> emptys = new HashMap<Position, Empty>();
+    public List<Wall> walls = new ArrayList<>();
+    public List<Empty> emptys = new ArrayList<>();
     public String[][]board;
+    public GameBoard(){
+    }
     public void setPlayer(Player p){
         this.player = p;
     }
@@ -30,7 +32,6 @@ public class GameBoard {
         try {
             Scanner mapReader = new Scanner(f);
             int y = 0, x=0;
-            Position position = new Position(x, y);
             Unit enemy;
             String data;
             while (mapReader.hasNextLine()){
@@ -38,15 +39,16 @@ public class GameBoard {
 
                 x = 0;
                 for (char ch: data.toCharArray()){
+                    Position position = new Position(x, y);
                     if (ch == '@') {
                         player.setPosition(position);
                         setPlayer(player);
                     }
                     if (ch == '#') {
-                        walls.put(position, new Wall(position));
+                        walls.add( new Wall(position));
                     }
                     if(ch == '.'){
-                        emptys.put(position, new Empty(position));
+                        emptys.add(new Empty(position));
                     }
                     if (UnitsController.Enemies.containsKey(ch+"")){
                         enemy = UnitsController.Enemies.get(ch+"").copy();
@@ -57,9 +59,9 @@ public class GameBoard {
                 }
                 y++;
             }
-            this.width = x;
-            this.height = y;
-            this.board = new String[y][x];
+            this.width = x ;
+            this.height = y ;
+            this.board = new String[height][width];
         }
         catch (Exception e){}
     }
@@ -68,28 +70,30 @@ public class GameBoard {
         for (int y = 0; y < height; y++)
             for (int x = 0; x < width; x++)
                 board[y][x] = ".";
-        board[player.getPosition().getY()][player.getPosition().getX()] =player.toString();
+        board[player.getPosition().getY()][player.getPosition().getX()] =player.getTile()+ "";
         for (Unit enemy : this.enemies){
-            board[enemy.getPosition().getY()][enemy.getPosition().getX()] = enemy.toString();
+            board[enemy.getPosition().getY()][enemy.getPosition().getX()] = enemy.getTile()+"";
         }
-        for (Position wallPos: this.walls.keySet()){
-            board[wallPos.getY()][wallPos.getX()] = this.walls.get(wallPos).toString();
+        for (Wall wall: this.walls){
+            board[wall.getPosition().getY()][wall.getPosition().getX()] = wall.toString();
         }
     }
     public Tile getTile(int x, int y){
+        if(getPlayer().getPosition().getX() == x && getPlayer().getPosition().getY() == y)
+            return getPlayer();
         for (Enemy enemy : enemies) {
             if(enemy.getPosition().getX() == x && enemy.getPosition().getY() == y)
                 return enemy;
         }
-        for (Map.Entry<Position, Wall> entry : walls.entrySet()) {
-            Position position = entry.getKey();
+        for (Wall wall : walls) {
+            Position position = wall.getPosition();
             if (position.getX() == x && position.getY() == y)
-                return entry.getValue();
+                return wall;
         }
-        for (Map.Entry<Position, Empty> entry : emptys.entrySet()) {
-            Position position = entry.getKey();
+        for (Empty empty : emptys) {
+            Position position = empty.getPosition();
             if (position.getX() == x && position.getY() == y)
-                return entry.getValue();
+                return empty;
         }
         return null;
     }
@@ -101,11 +105,11 @@ public class GameBoard {
     private String boardToString(){
         String finalBoard = "";
         for (int i =0; i < board.length; i++){
-            for(int j=0; i< board[i].length; j++){
-                finalBoard += board[i][j] ;
+            for(int j=0; j< board[i].length; j++){
+                finalBoard += board[i][j];
             }
             finalBoard += "\n";
         }
-        return finalBoard;
+        return finalBoard.toString();
     }
 }

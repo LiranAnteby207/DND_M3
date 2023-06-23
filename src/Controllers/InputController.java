@@ -1,7 +1,5 @@
 package Controllers;
 
-import Input.InputFromUser;
-
 import java.util.Scanner;
 
 public class InputController {
