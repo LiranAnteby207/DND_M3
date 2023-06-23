@@ -12,7 +12,6 @@ class RogueTest {
     void setUp() {
         AryaStark = new Rogue('@', "Arya Stark" ,150, 40, 2,20);
     }
-
     @Test
     void copy() {
         assertEquals(new Rogue('@', "Arya Stark" ,150, 40, 2,20),AryaStark.copy());
