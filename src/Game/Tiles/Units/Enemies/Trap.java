@@ -29,9 +29,6 @@ public Trap(char tile, String name, int healthCapacity, int attack, int defense,
         if(range.getRange() < 2 )
             p.attack(this);
     }
-    public boolean isVisible() {
-        return visible;
-    }
     public Trap copy(){
     return new Trap(this.tile, this.name, this.health.getHealthPool(), this.attackPoints, this.defensePoints, this.experienceValue,this.VisibilityTime, this.InVisibilityTime);
     }

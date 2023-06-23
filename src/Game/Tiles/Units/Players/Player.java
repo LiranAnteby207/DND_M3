@@ -31,7 +31,7 @@ public abstract class Player extends Unit {
         return experience;
     }
 
-    private int getLevel() {
+    public int getLevel() {
         return level;
     }
     public void accept(Unit u){
@@ -56,4 +56,5 @@ public abstract class Player extends Unit {
     public void setLevel(int level) {
         this.level = level;
     }
+
 }

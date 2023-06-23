@@ -47,4 +47,5 @@ public class Rogue extends Player {
         this.currentEnergy = 100;
         this.attackPoints += 3*this.level;
     }
+
 }
