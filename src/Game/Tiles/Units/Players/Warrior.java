@@ -7,8 +7,7 @@ import Game.Utils.Range;
 import java.util.*;
 
 public class Warrior extends Player {
-    protected int abilityCooldown;//received as a constructor argument.Represents the number of
-    //game ticks required to pass before the warrior can cast the ability again.
+    protected int abilityCooldown;
     protected int remainingCooldown = 0;
     public Warrior(char tile, String name, int healthCapacity, int attack, int defense, int abilityCooldown){
         super(tile, name, healthCapacity, attack, defense);
@@ -68,12 +67,5 @@ public class Warrior extends Player {
         this.health.setHealthPool(this.health.getHealthPool());
         setAttackPoints(getAttackPoints() + 2 * this.level);
         setDefensePoints(getDefensePoints() + level);
-    }
-    public int getAbilityCooldown(){ return this.abilityCooldown;}
-    public int getRemainingCooldown(){ return this.remainingCooldown;}
-    public void setRemainingCooldown(int update){ this.remainingCooldown = update;}
-    public void setWarriorExperience(int exp){
-        setExperience(exp);
-        //eirjjgnergiiuunereregluuhhbq3gkluhb3qgouiyhbq3gpoiuybq34ggpbq23gpiiubn3rgg
     }
 }

@@ -4,6 +4,9 @@ import Controllers.InputController;
 import Game.Tiles.Units.Enemies.Enemy;
 import Game.Utils.Range;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Rogue extends Player {
     protected int Cost;
     protected int currentEnergy = 100;
@@ -36,10 +39,13 @@ public class Rogue extends Player {
         currentEnergy -= Cost;
     }
     private void fanOfKnives(){
-        for(Enemy e : gameManager.gameBoard.enemies){
-            Range rng = new Range(e,this);
-            if(rng.getRange() < 2)
-                e.gotAttackedAbilityCast(this.attackPoints,this);
+        List<Enemy> enemies = new ArrayList<>(gameManager.gameBoard.enemies);
+        for(Enemy e : enemies){
+            if(!e.isDead()){
+                Range rng = new Range(e,this);
+                if(rng.getRange() < 2)
+                    e.gotAttackedAbilityCast(this.attackPoints,this);
+            }
         }
     }
     public void levelUp() {
