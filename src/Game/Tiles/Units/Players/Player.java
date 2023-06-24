@@ -5,6 +5,7 @@ import Game.Callbacks.MessageCallback;
 import Game.Tiles.Units.Enemies.Enemy;
 import Game.Tiles.Units.Health;
 import Game.Tiles.Units.Unit;
+import Game.Utils.ConsoleColors;
 import Game.Utils.Position;
 
 public abstract class Player extends Unit {
@@ -18,7 +19,9 @@ public abstract class Player extends Unit {
     }
     public abstract void onTick();
     public void levelUp(){
-        messageCallback.send(String.format("%s leveled up!!!",this.name));
+        StringBuilder s = new StringBuilder();
+        s.append(ConsoleColors.CYAN).append(String.format("%s leveled up!!!",this.name)).append(ConsoleColors.RESET);
+        messageCallback.send(s.toString());
         this.experience -= 50 * this.level;
         this.level += 1;
         this.health.addHealthPool(10 * this.level);

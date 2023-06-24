@@ -5,6 +5,8 @@ import Game.Callbacks.MessageCallback;
 import Game.Tiles.Units.Enemies.Enemy;
 import Game.Tiles.Units.Players.Player;
 import Game.Tiles.Units.Unit;
+import Game.Utils.ConsoleColors;
+
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.*;
@@ -39,10 +41,19 @@ public class GameManager {
             if(p.isDead())
                 break;
         }
-        if(gameBoard.getPlayer().isDead())
-            messageCallback.send("Game Over!");
-        else
-            messageCallback.send("You Won!!!");
+        if(gameBoard.getPlayer().isDead()){
+            printBoard();
+            StringBuilder s = new StringBuilder();
+            s.append(ConsoleColors.RED).append("Game Over!!!").append(ConsoleColors.RESET);
+            messageCallback.send(s.toString());
+        }
+        else{
+            printBoard();
+            StringBuilder s = new StringBuilder();
+            s.append(ConsoleColors.GREEN).append("YOU WON!!!").append(ConsoleColors.RESET);
+            messageCallback.send(s.toString());
+        }
+
     }
     public void startLevel(){
         while(!gameBoard.getPlayer().isDead() && this.enemies.size() != 0){
@@ -132,9 +143,11 @@ public class GameManager {
     public String choosePlayer(){
         messageCallback.send("Choose your player: ");
         int i = 0;
+        StringBuilder s = new StringBuilder();
         for(Map.Entry<String, List<Player>> player : UnitsController.Players.entrySet()){
             for(Player p : player.getValue()){
-                messageCallback.send(i + " :" + p.describe());
+                s.append(ConsoleColors.PURPLE).append(i).append(" :").append(p.describe()).append(ConsoleColors.RESET);
+                messageCallback.send(s.toString());
                 i++;
             }
         }
