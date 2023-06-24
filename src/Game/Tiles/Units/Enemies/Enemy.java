@@ -31,7 +31,7 @@ public abstract class Enemy extends Unit {
         else
             messageCallback.send(String.format("%s tried to ability cast damage %s without success",p.getName(), this.name));
         if(isDead())
-            onDeath(p);
+            onAbilityDeath(p);
     }
     public void onDeath(Player p){
         p.setExperience(this.getExperienceValue());
@@ -40,6 +40,13 @@ public abstract class Enemy extends Unit {
         gameManager.gameBoard.emptys.add(e);
         gameManager.gameBoard.enemies.remove(this);
         e.swap(p);
+    }
+    public void onAbilityDeath(Player p){
+        p.setExperience(this.getExperienceValue());
+        messageCallback.send(String.format("%s died. %s gained %d experience.", this.getName(), p.getName(), this.getExperienceValue()));
+        Empty e = new Empty(position);
+        gameManager.gameBoard.emptys.add(e);
+        gameManager.gameBoard.enemies.remove(this);
     }
     public abstract void onTick();
     public void visit(Enemy e){}

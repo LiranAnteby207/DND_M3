@@ -7,6 +7,7 @@ import Game.Tiles.Tile;
 import Game.Tiles.Units.Players.Player;
 import Game.Tiles.Units.Unit;
 import Game.Tiles.Wall;
+import Game.Utils.ConsoleColors;
 import Game.Utils.Position;
 
 import java.io.File;
@@ -104,12 +105,18 @@ public class GameBoard {
         return boardToString();
     }
     private String boardToString(){
-        String finalBoard = "";
+        StringBuilder finalBoard = new StringBuilder();
         for (int i =0; i < board.length; i++){
             for(int j=0; j< board[i].length; j++){
-                finalBoard += board[i][j];
+                String cell = board[i][j];
+                if(cell.equals("@"))
+                    finalBoard.append(ConsoleColors.GREEN).append(cell).append(ConsoleColors.RESET);
+                else if (! cell.equals(".") && !cell.equals("#"))
+                    finalBoard.append(ConsoleColors.RED).append(cell).append(ConsoleColors.RESET);
+                else
+                    finalBoard.append(cell);
             }
-            finalBoard += "\n";
+            finalBoard.append("\n");
         }
         return finalBoard.toString();
     }

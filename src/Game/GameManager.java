@@ -147,18 +147,20 @@ public class GameManager {
     }
     private String getNameOfChosenPlayer(char choise){
         if(choise == '0')
-            return "Jon Snow";
+            return "Ygritte";
         if(choise == '1')
-            return "The Hound";
+            return "Jon Snow";
         if(choise == '2')
-            return "Melisandre";
+            return "The Hound";
         if(choise == '3')
-            return "Thoros of Myr";
+            return "Melisandre";
         if(choise == '4')
-            return "Arya Stark";
+            return "Thoros of Myr";
         if(choise == '5')
+            return "Arya Stark";
+        if(choise == '6')
             return "Bronn";
-        messageCallback.send("Enter a number between 0-5 !");
+        messageCallback.send("Enter a number between 0-6 !");
         return null;
     }
     public void ListOfAllMaps(String path){
