@@ -7,6 +7,7 @@ import Game.Tiles.Tile;
 import Game.Tiles.Units.Enemies.Enemy;
 import Game.Tiles.Units.Players.Player;
 import Game.Tiles.Wall;
+import Game.Utils.ConsoleColors;
 import Game.Utils.Position;
 
 import java.lang.Math;
@@ -40,10 +41,15 @@ public abstract class Unit extends Tile {
         double score = attackRnd - defenseRnd;
         if(score > 0){
             this.health.HealthAmount -= (int)score;
-            messageCallback.send(String.format("%s got damage %f from %s, now %s has %d health amount from %d",this.name,score,unit.name,this.name,this.health.HealthAmount,this.health.HealthPool));
+            StringBuilder s = new StringBuilder();
+            s.append(ConsoleColors.BLUE).append(String.format("%s got damage %f from %s, now %s has %d health amount from %d",this.name,score,unit.name,this.name,this.health.HealthAmount,this.health.HealthPool)).append(ConsoleColors.RESET);
+            messageCallback.send(s.toString());
         }
-        else
-            messageCallback.send(String.format("%s tried to damage %s without success",unit.name, this.name));
+        else{
+            StringBuilder s = new StringBuilder();
+            s.append(ConsoleColors.BLUE).append(String.format("%s tried to damage %s without success",unit.name, this.name)).append(ConsoleColors.RESET);
+            messageCallback.send(s.toString());
+        }
     }
     public boolean isDead(){
         return this.health.HealthAmount <= 0;

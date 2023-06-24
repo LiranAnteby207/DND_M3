@@ -41,13 +41,13 @@ public class Mage extends Player {
         messageCallback.send("Choose your next move!");
         char act = InputController.inputCache();
         if(act == 'e'){
-            if(this.CurrentMana < ManaCost)
+            if(this.CurrentMana >= ManaCost)
                 abilityCast();
         }
         else{
             move(act);
+            this.CurrentMana = Math.min(this.ManaPool , this.CurrentMana + this.level);
         }
-        this.CurrentMana = Math.min(this.ManaPool , this.CurrentMana + this.level);
     }
     public void abilityCast(){
         this.CurrentMana = this.CurrentMana - this.ManaCost;

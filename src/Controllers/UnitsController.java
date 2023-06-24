@@ -3,10 +3,7 @@ package Controllers;
 import Game.Tiles.Units.Enemies.Enemy;
 import Game.Tiles.Units.Enemies.Monster;
 import Game.Tiles.Units.Enemies.Trap;
-import Game.Tiles.Units.Players.Mage;
-import Game.Tiles.Units.Players.Player;
-import Game.Tiles.Units.Players.Rogue;
-import Game.Tiles.Units.Players.Warrior;
+import Game.Tiles.Units.Players.*;
 import Game.Tiles.Units.Unit;
 
 import java.io.*;
@@ -42,7 +39,18 @@ public class UnitsController {
             List<Player> warriorList = Players.getOrDefault("Warrior", new ArrayList<>());
             warriorList.add(warrior);
             Players.put("Warrior", warriorList);
+        }if (Objects.equals(data[0], "Hunter")) {
+            String name = data[1];
+            int health = Integer.parseInt(data[2]);
+            int attack = Integer.parseInt(data[3]);
+            int defense = Integer.parseInt(data[4]);
+            int range = Integer.parseInt(data[5]);
+            Hunter hunter = new Hunter('@', name, health, attack, defense, range);
+            List<Player> HunterList = Players.getOrDefault("Hunter", new ArrayList<>());
+            HunterList.add(hunter);
+            Players.put("Hunter", HunterList);
         }
+
         if (Objects.equals(data[0], "Mage")) {
             String name = data[1];
             int health = Integer.parseInt(data[2]);

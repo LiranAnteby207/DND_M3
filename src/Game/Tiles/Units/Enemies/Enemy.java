@@ -3,6 +3,7 @@ package Game.Tiles.Units.Enemies;
 import Game.Tiles.Empty;
 import Game.Tiles.Units.Players.Player;
 import Game.Tiles.Units.Unit;
+import Game.Utils.ConsoleColors;
 
 public abstract class Enemy extends Unit {
     protected int experienceValue;
@@ -31,15 +32,26 @@ public abstract class Enemy extends Unit {
         else
             messageCallback.send(String.format("%s tried to ability cast damage %s without success",p.getName(), this.name));
         if(isDead())
-            onDeath(p);
+            onAbilityDeath(p);
     }
     public void onDeath(Player p){
         p.setExperience(this.getExperienceValue());
-        messageCallback.send(String.format("%s died. %s gained %d experience.", this.getName(), p.getName(), this.getExperienceValue()));
+        StringBuilder s = new StringBuilder();
+        s.append(ConsoleColors.GREEN).append(String.format("%s died. %s gained %d experience.", this.getName(), p.getName(), this.getExperienceValue())).append(ConsoleColors.RESET);
+        messageCallback.send(s.toString());
         Empty e = new Empty(position);
         gameManager.gameBoard.emptys.add(e);
         gameManager.gameBoard.enemies.remove(this);
         e.swap(p);
+    }
+    public void onAbilityDeath(Player p){
+        p.setExperience(this.getExperienceValue());
+        StringBuilder s = new StringBuilder();
+        s.append(ConsoleColors.GREEN).append(String.format("%s died. %s gained %d experience.", this.getName(), p.getName(), this.getExperienceValue())).append(ConsoleColors.RESET);
+        messageCallback.send(s.toString());
+        Empty e = new Empty(position);
+        gameManager.gameBoard.emptys.add(e);
+        gameManager.gameBoard.enemies.remove(this);
     }
     public abstract void onTick();
     public void visit(Enemy e){}
