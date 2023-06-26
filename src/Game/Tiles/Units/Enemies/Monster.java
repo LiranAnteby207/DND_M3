@@ -23,7 +23,7 @@ public class Monster extends Enemy {
         else
             moveRandom();
     }
-    public void moveTowards(Player p) {
+    private void moveTowards(Player p) {
         int dx = p.getPosition().getX() - this.getPosition().getX();
         int dy = p.getPosition().getY() - this.getPosition().getY();
         if (Math.abs(dx) > Math.abs(dy)){
@@ -35,7 +35,7 @@ public class Monster extends Enemy {
             else moveUp();
         }
     }
-    public void moveRandom(){
+        private void moveRandom(){
         double rnd = Math.random();
         int randomMove = (int) (rnd * (4) + 1);
         if(randomMove == 1) moveRight();

@@ -90,7 +90,6 @@ public class GameManager {
     public void loadGame(File f){
         gameBoard.buildLevelBoard(f);
         listTurn.clear();
-//        listTurn.add(gameBoard.getPlayer());
         for(Unit enemy: gameBoard.enemies)
             listTurn.add(enemy);
     }
@@ -149,6 +148,7 @@ public class GameManager {
                 s.append(ConsoleColors.PURPLE).append(i).append(" :").append(p.describe()).append(ConsoleColors.RESET);
                 messageCallback.send(s.toString());
                 i++;
+                s.setLength(0);
             }
         }
         String value = null;
