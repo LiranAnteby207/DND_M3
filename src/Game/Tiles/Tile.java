@@ -3,7 +3,7 @@ package Game.Tiles;
 import Game.Tiles.Units.Unit;
 import Game.Utils.Position;
 
-public abstract class Tile implements Comparable<Tile> {
+public abstract class Tile  {
     protected char tile;
     protected Position position;
     protected Tile(char tile){this.tile = tile;}
@@ -19,10 +19,6 @@ public abstract class Tile implements Comparable<Tile> {
     public Position getPosition() {return position;}
     public void setPosition(Position p){
         this.position = p;
-    }
-    @Override
-    public int compareTo(Tile tile) {
-        return getPosition().compareTo(tile.getPosition());
     }
     public abstract void accept(Unit unit);
     public void swap(Tile t){

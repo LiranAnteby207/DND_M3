@@ -25,7 +25,7 @@ public class Warrior extends Player {
         this.health.setHealthAmount(newHealthAmount);
         AvengersShield();
     }
-    public void AvengersShield() {
+    private void AvengersShield() {
         List<Enemy> inRangeEnemies = new ArrayList<>();
         for (Enemy e : gameManager.gameBoard.enemies) {
             Range rng = new Range(e, this);
